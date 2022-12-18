@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "345237908230",
+    "project_id": "telmed-v2",
+    "storage_bucket": "telmed-v2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345237908230:android:2f4f1afd6ba37efa3f8c87",
+        "android_client_info": {
+          "package_name": "com.agesadev.telmedv2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "345237908230-j0v7ag7bc82dkh08vp0va4dqnf7ecc1r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMrEtLRzgshjYvHn7Zg44R1g1C1_lFHrI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "345237908230-j0v7ag7bc82dkh08vp0va4dqnf7ecc1r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
