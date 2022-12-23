@@ -2,6 +2,7 @@ package com.agesadev.telmedv2.presentation.auth
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,9 +11,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.agesadev.telmedv2.R
 import com.agesadev.telmedv2.databinding.FragmentLoginBinding
 import com.agesadev.telmedv2.utils.Resource
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onStart
@@ -33,6 +36,12 @@ class LoginFragment : Fragment() {
     ): View? {
         _loginBinding =
             FragmentLoginBinding.inflate(inflater, container, false)
+        loginBinding?.loginBtn?.setOnClickListener {
+            authViewModel.login(
+                loginBinding?.loginEmail?.text.toString(),
+                loginBinding?.loginPassword?.text.toString()
+            )
+        }
         return loginBinding?.root
     }
 
@@ -40,20 +49,24 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                authViewModel.loginFlow.collectLatest { resource ->
-                    when (resource) {
-                        is Resource.Error -> {
-
+                authViewModel.authStateLogin.collectLatest { state ->
+                    when {
+                        state.isLoading -> {
+                            loginBinding?.loginProgressBar?.visibility = View.VISIBLE
                         }
-                        Resource.Loading -> {
-
+                        state.error.isNotEmpty() -> {
+                            loginBinding?.loginProgressBar?.visibility = View.GONE
+                            Snackbar.make(
+                                requireView(),
+                                state.error,
+                                Snackbar.LENGTH_SHORT
+                            ).show()
                         }
-                        is Resource.Success -> {
-
+                        state.user != null -> {
+                            loginBinding?.loginProgressBar?.visibility = View.GONE
+                            findNavController().navigate(R.id.homeFragment)
                         }
-                        null -> TODO()
                     }
-
                 }
             }
         }

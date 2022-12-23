@@ -17,40 +17,55 @@ class AuthViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
-    private val _loginFlow = MutableStateFlow<Resource<FirebaseUser>?>(null)
-    val loginFlow: StateFlow<Resource<FirebaseUser>?> = _loginFlow
+    private val _authStateSignUp = MutableStateFlow(AuthState())
+    val authStateSignUp: StateFlow<AuthState> = _authStateSignUp
 
-    private val _signUpFlow = MutableStateFlow<Resource<FirebaseUser>?>(null)
-    val signUpFlow: StateFlow<Resource<FirebaseUser>?> = _loginFlow
+    private val _authStateLogin = MutableStateFlow(AuthState())
+    val authStateLogin: StateFlow<AuthState> = _authStateLogin
 
     val currentUser: FirebaseUser?
         get() = authRepository.currentUser
 
-    init {
-        if (authRepository.currentUser != null) {
-            _loginFlow.value = Resource.Success(authRepository.currentUser!!)
+
+    fun signUp(email: String, password: String) = viewModelScope.launch {
+        authRepository.signUp(email, password).collectLatest { result ->
+            when (result) {
+                is Resource.Error -> {
+                    _authStateSignUp.value = AuthState(isLoading = false, error = result.error ?: "")
+                }
+                is Resource.Loading -> {
+                    _authStateSignUp.value = AuthState(isLoading = true)
+                }
+                is Resource.Success -> {
+                    _authStateSignUp.value = AuthState(isLoading = false, user = result.data)
+                }
+            }
+
         }
     }
 
 
     fun login(email: String, password: String) = viewModelScope.launch {
-        val result = authRepository.login(email, password)
-        result.collectLatest {
-            _loginFlow.value = it
-        }
-    }
+        authRepository.login(email, password).collectLatest { result ->
+            when (result) {
+                is Resource.Error -> {
+                    _authStateLogin.value = AuthState(isLoading = false, error = result.error ?: "")
+                }
+                is Resource.Loading -> {
+                    _authStateLogin.value = AuthState(isLoading = true)
+                }
+                is Resource.Success -> {
+                    _authStateLogin.value = AuthState(isLoading = false, user = result.data)
+                }
+            }
 
-    fun signUp(email: String, password: String) = viewModelScope.launch {
-        val result = authRepository.signUp(email, password)
-        result.collectLatest {
-            _signUpFlow.value = it
         }
     }
 
 
     fun logout() {
         authRepository.logout()
-        _signUpFlow.value = null
-        _loginFlow.value = null
+//        _signUpFlow.value = null
+//        _loginFlow.value = null
     }
 }

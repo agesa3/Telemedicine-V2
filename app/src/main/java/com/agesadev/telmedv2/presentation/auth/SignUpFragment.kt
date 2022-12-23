@@ -10,9 +10,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
+import com.agesadev.telmedv2.R
 import com.agesadev.telmedv2.databinding.FragmentSignUpBinding
 import com.agesadev.telmedv2.presentation.auth.AuthViewModel
 import com.agesadev.telmedv2.utils.Resource
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -45,23 +48,28 @@ class SignUpFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                authViewModel.signUpFlow.collectLatest { resource ->
-                    when (resource) {
-                        is Resource.Error -> {
-                            Log.d("Signup", "onViewCreated: ${resource.exception}")
+                authViewModel.authStateSignUp.collectLatest { authState ->
+                    when {
+                        authState.isLoading -> {
+                            signUpBinding?.signUpProgressBar?.visibility = View.VISIBLE
                         }
-                        Resource.Loading -> {
-                            Log.d("Signup", "onViewCreated: Loading")
+                        authState.user != null -> {
+                            findNavController().navigate(R.id.homeFragment)
+                            signUpBinding?.signUpProgressBar?.visibility = View.GONE
                         }
-                        is Resource.Success -> {
-                            Log.d("Signup", "onViewCreated: ${resource.data}")
-                        }
-                        null -> {
-                            Log.d("Signup", "onViewCreated: else")
+                        authState.error.isNotEmpty() -> {
+                            signUpBinding?.signUpProgressBar?.visibility = View.GONE
+                            Snackbar.make(
+                                requireView(),
+                                authState.error,
+                                Snackbar.LENGTH_SHORT
+                            ).show()
                         }
                     }
+
                 }
             }
         }
     }
 }
+
