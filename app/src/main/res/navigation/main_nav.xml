@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_sign_up" />
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.agesadev.telmedv2.presentation.auth.login.LoginFragment"
+        android:name="com.agesadev.telmedv2.presentation.auth.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" />
 </navigation>

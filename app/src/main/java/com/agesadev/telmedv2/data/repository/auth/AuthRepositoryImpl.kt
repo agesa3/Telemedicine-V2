@@ -40,6 +40,7 @@ class AuthRepositoryImpl @Inject constructor(
             } else {
                 trySend(Resource.Error(Exception("User is null"))).isSuccess
             }
+            awaitClose()
         }
 
 

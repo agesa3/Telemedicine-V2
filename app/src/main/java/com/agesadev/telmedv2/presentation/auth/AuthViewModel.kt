@@ -1,4 +1,4 @@
-package com.agesadev.telmedv2.presentation.auth.login
+package com.agesadev.telmedv2.presentation.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
