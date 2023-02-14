@@ -9,10 +9,19 @@
         android:id="@+id/signUpFragment"
         android:name="com.agesadev.telmedv2.presentation.auth.SignUpFragment"
         android:label="fragment_sign_up"
-        tools:layout="@layout/fragment_sign_up" />
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.agesadev.telmedv2.presentation.auth.login.LoginFragment"
+        android:name="com.agesadev.telmedv2.presentation.auth.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.agesadev.telmedv2.presentation.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
 </navigation>

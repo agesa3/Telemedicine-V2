@@ -1,5 +1,6 @@
 package com.agesadev.telmedv2.presentation.auth
 
+import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,64 +13,62 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.agesadev.telmedv2.R
-import com.agesadev.telmedv2.databinding.FragmentSignUpBinding
-import com.agesadev.telmedv2.presentation.auth.AuthViewModel
+import com.agesadev.telmedv2.databinding.FragmentLoginBinding
 import com.agesadev.telmedv2.utils.Resource
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SignUpFragment : Fragment() {
+class LoginFragment : Fragment() {
 
-    private var _signUpBinding: FragmentSignUpBinding? = null
-    private val signUpBinding get() = _signUpBinding
+
+    private var _loginBinding: FragmentLoginBinding? = null
+    private val loginBinding get() = _loginBinding
 
     private val authViewModel: AuthViewModel by viewModels()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _signUpBinding = FragmentSignUpBinding.inflate(inflater, container, false)
-        signUpBinding?.signUpBtn?.setOnClickListener {
-            authViewModel.signUp(
-                signUpBinding?.signUpEmail?.text.toString(),
-                signUpBinding?.signUpPassword?.text.toString()
+        _loginBinding =
+            FragmentLoginBinding.inflate(inflater, container, false)
+        loginBinding?.loginBtn?.setOnClickListener {
+            authViewModel.login(
+                loginBinding?.loginEmail?.text.toString(),
+                loginBinding?.loginPassword?.text.toString()
             )
         }
-        return signUpBinding?.root
+        return loginBinding?.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                authViewModel.authStateSignUp.collectLatest { authState ->
+                authViewModel.authStateLogin.collectLatest { state ->
                     when {
-                        authState.isLoading -> {
-                            signUpBinding?.signUpProgressBar?.visibility = View.VISIBLE
+                        state.isLoading -> {
+                            loginBinding?.loginProgressBar?.visibility = View.VISIBLE
                         }
-                        authState.user != null -> {
-                            findNavController().navigate(R.id.homeFragment)
-                            signUpBinding?.signUpProgressBar?.visibility = View.GONE
-                        }
-                        authState.error.isNotEmpty() -> {
-                            signUpBinding?.signUpProgressBar?.visibility = View.GONE
+                        state.error.isNotEmpty() -> {
+                            loginBinding?.loginProgressBar?.visibility = View.GONE
                             Snackbar.make(
                                 requireView(),
-                                authState.error,
+                                state.error,
                                 Snackbar.LENGTH_SHORT
                             ).show()
                         }
+                        state.user != null -> {
+                            loginBinding?.loginProgressBar?.visibility = View.GONE
+                            findNavController().navigate(R.id.homeFragment)
+                        }
                     }
-
                 }
             }
         }
     }
 }
-
