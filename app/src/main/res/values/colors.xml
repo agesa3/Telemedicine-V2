@@ -10,6 +10,9 @@
     <color name="text_color_one">#006688</color>
     <color name="auth_btn_color">#ADECFF</color>
     <color name="colorAccent">#006688</color>
+    <color name="colorAccentDark">#00465E</color>
+    <color name="searchViewBg">#024A62</color>
+
 
 
 </resources>

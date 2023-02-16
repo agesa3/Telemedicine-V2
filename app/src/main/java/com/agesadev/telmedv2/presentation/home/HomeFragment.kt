@@ -2,10 +2,9 @@ package com.agesadev.telmedv2.presentation.home
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.agesadev.telmedv2.R
@@ -18,7 +17,6 @@ class HomeFragment : Fragment() {
 
     private var _homeBinding: FragmentHomeBinding? = null
     private val homeBinding get() = _homeBinding
-
     private val authViewModel: AuthViewModel by viewModels()
 
     override fun onCreateView(
@@ -26,12 +24,19 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _homeBinding = FragmentHomeBinding.inflate(inflater, container, false)
-        homeBinding?.logout?.setOnClickListener {
-            authViewModel.logout()
-            findNavController().navigate(R.id.loginFragment)
-        }
         return homeBinding?.root
     }
 
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        homeBinding?.toolbar?.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.logout_icon -> {
+                    authViewModel.logout()
+                    findNavController().navigate(R.id.loginFragment)
+                }
+            }
+            true
+        }
+    }
 }
