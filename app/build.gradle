@@ -63,6 +63,7 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     //Permissions
     implementation "com.google.accompanist:accompanist-permissions:0.21.1-beta"
+    implementation "de.hdodenhof:circleimageview:3.1.0"
 
 
 }
