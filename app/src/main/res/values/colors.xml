@@ -10,4 +10,7 @@
     <color name="text_color_one">#006688</color>
     <color name="auth_btn_color">#ADECFF</color>
 
+
+    <color name="medicinal_blue">#006688</color>
+    <color name="cyan_blue">#ADECFF</color>
 </resources>
