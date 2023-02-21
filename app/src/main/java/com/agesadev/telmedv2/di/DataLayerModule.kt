@@ -19,5 +19,7 @@ object DataLayerModule {
 
 
     @Provides
-    fun provideAuthRepository(auth: AuthRepositoryImpl): AuthRepository = auth
+    fun provideAuthRepository(firebaseAuth: FirebaseAuth): AuthRepository {
+        return AuthRepositoryImpl(firebaseAuth)
+    }
 }
