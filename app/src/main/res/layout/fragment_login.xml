@@ -4,8 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/darker_gray"
+    android:background="@color/white"
     tools:context=".presentation.auth.LoginFragment">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bottom_auth_circle_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline4" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/email_input_layout"
@@ -17,6 +28,8 @@
         android:layout_marginEnd="32dp"
         android:hint="@string/email"
         android:textColorHint="@color/white"
+        app:boxStrokeColor="@color/white"
+        app:hintTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline2">
@@ -27,6 +40,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/signika_bold"
             android:inputType="textEmailAddress"
+            android:textColor="@color/white"
             android:textColorHint="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -38,6 +52,8 @@
         android:layout_marginTop="8dp"
         android:hint="@string/password"
         android:textColorHint="@color/white"
+        app:boxStrokeColor="@color/white"
+        app:hintTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="@+id/email_input_layout"
         app:layout_constraintStart_toStartOf="@+id/email_input_layout"
         app:layout_constraintTop_toBottomOf="@+id/email_input_layout">
@@ -47,7 +63,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fontFamily="@font/signika_bold"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:textColor="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -55,12 +72,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:backgroundTint="@color/cyan_blue"
         android:fontFamily="@font/signika_bold"
+        android:padding="10dp"
         android:text="Login"
         android:textAllCaps="false"
-        android:textSize="20sp"
-        android:padding="10dp"
-        android:backgroundTint="@color/auth_btn_color"
+        android:textColor="@color/medicinal_blue"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/password_input_layout"
         app:layout_constraintStart_toStartOf="@+id/password_input_layout"
         app:layout_constraintTop_toBottomOf="@+id/password_input_layout" />
@@ -91,7 +109,8 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/signika_bold"
         android:text="Login"
-        android:textSize="30sp"
+        android:textColor="#006688"
+        android:textSize="34sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -102,13 +121,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.1" />
+        app:layout_constraintGuide_percent="0.24" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.25" />
+        app:layout_constraintGuide_percent="0.38" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/top_auth_ellipse"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
