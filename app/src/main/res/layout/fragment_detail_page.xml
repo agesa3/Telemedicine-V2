@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/   "
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".presentation.home.DetailPage" >
@@ -131,7 +130,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView9"
+                        android:id="@+id/textView72"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -140,7 +139,7 @@
                         android:textColor="#585858" />
 
                     <TextView
-                        android:id="@+id/textView10"
+                        android:id="@+id/textView71"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -158,7 +157,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView9"
+                        android:id="@+id/textView70"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -167,7 +166,7 @@
                         android:textColor="#585858" />
 
                     <TextView
-                        android:id="@+id/textView10"
+                        android:id="@+id/textView69"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -185,7 +184,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView9"
+                        android:id="@+id/textView68"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -194,7 +193,7 @@
                         android:textColor="#585858" />
 
                     <TextView
-                        android:id="@+id/textView10"
+                        android:id="@+id/textView67"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -212,7 +211,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView9"
+                        android:id="@+id/textView66"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -221,7 +220,7 @@
                         android:textColor="#585858" />
 
                     <TextView
-                        android:id="@+id/textView10"
+                        android:id="@+id/textView65"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -239,7 +238,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView9"
+                        android:id="@+id/textView64"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -248,7 +247,7 @@
                         android:textColor="#585858" />
 
                     <TextView
-                        android:id="@+id/textView10"
+                        android:id="@+id/textView63"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -267,7 +266,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView9"
+                        android:id="@+id/textView62"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -276,7 +275,7 @@
                         android:textColor="#585858" />
 
                     <TextView
-                        android:id="@+id/textView10"
+                        android:id="@+id/textView61"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -291,12 +290,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/patient_card_background"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
                 <TextView
                     android:id="@+id/textView20"
@@ -307,7 +307,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="12dp"
                     android:fontFamily="@font/barlow_medium"
-                    android:text="Personal Information"
+                    android:text="Medical History"
                     android:textColor="#585858"
                     android:textSize="20sp" />
 
@@ -331,7 +331,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/barlow_medium"
-                        android:text="Full Name:"
+                        android:text="Allergies"
                         android:textColor="#585858" />
 
                     <TextView
@@ -341,7 +341,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/barlow_medium"
                         android:textColor="@color/black"
-                        tools:text="John Doe" />
+                        tools:text="Peanut Allergy\nEggs Allergy\nFragrance Allergy" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -358,7 +358,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/barlow_medium"
-                        android:text="Gender:"
+                        android:text="Family HIstory"
                         android:textColor="#585858" />
 
                     <TextView
@@ -368,115 +368,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/barlow_medium"
                         android:textColor="@color/black"
-                        tools:text="Male" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView25"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/barlow_medium"
-                        android:text="DOB:"
-                        android:textColor="#585858" />
-
-                    <TextView
-                        android:id="@+id/textView27"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/barlow_medium"
-                        android:textColor="@color/black"
-                        tools:text="28/04/2000" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView28"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/barlow_medium"
-                        android:text="Identification No:"
-                        android:textColor="#585858" />
-
-                    <TextView
-                        android:id="@+id/textView29"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/barlow_medium"
-                        android:textColor="@color/black"
-                        tools:text="3432454" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView30"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/barlow_medium"
-                        android:text="Location:"
-                        android:textColor="#585858" />
-
-                    <TextView
-                        android:id="@+id/textView31"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/barlow_medium"
-                        android:textColor="@color/black"
-                        tools:text="Kenya, Kakamega" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView32"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/barlow_medium"
-                        android:text="Height:"
-                        android:textColor="#585858" />
-
-                    <TextView
-                        android:id="@+id/textView33"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/barlow_medium"
-                        android:textColor="@color/black"
-                        tools:text="183cm" />
+                        tools:text="Arthritis\nVirtigo" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -489,23 +381,23 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView34"
+                        android:id="@+id/textView25"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/barlow_medium"
-                        android:text="Weight:"
+                        android:text="Surgical History"
                         android:textColor="#585858" />
 
                     <TextView
-                        android:id="@+id/textView35"
+                        android:id="@+id/textView27"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/barlow_medium"
-                        android:textColor="@color/black"
-                        tools:text="70kgs" />
+                        android:textColor="@color/black" />
                 </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
