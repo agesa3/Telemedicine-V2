@@ -283,6 +283,15 @@
                         android:textColor="@color/black"
                         tools:text="70kgs" />
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textView43"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/barlow_medium"
+                    android:textColor="@color/black"
+                    tools:text="80mbs" />
             </LinearLayout>
 
             <LinearLayout
@@ -362,7 +371,7 @@
                         android:textColor="#585858" />
 
                     <TextView
-                        android:id="@+id/textView25"
+                        android:id="@+id/textView60"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -503,14 +512,6 @@
                         android:text="Pulse Rate:"
                         android:textColor="#585858" />
 
-                    <TextView
-                        android:id="@+id/textView43"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/barlow_medium"
-                        android:textColor="@color/black"
-                        tools:text="80mbs" />
                 </LinearLayout>
 
                 <LinearLayout
