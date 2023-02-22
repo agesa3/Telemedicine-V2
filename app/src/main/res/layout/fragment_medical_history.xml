@@ -18,7 +18,7 @@
         app:titleTextColor="@color/white" />
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/logoutImageIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -33,9 +33,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="Add Allergies"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView5"
-        app:layout_constraintStart_toEndOf="@+id/imageView5"
-        app:layout_constraintTop_toTopOf="@+id/imageView5" />
+        app:layout_constraintBottom_toBottomOf="@+id/logoutImageIcon"
+        app:layout_constraintStart_toEndOf="@+id/logoutImageIcon"
+        app:layout_constraintTop_toTopOf="@+id/logoutImageIcon" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView3"
