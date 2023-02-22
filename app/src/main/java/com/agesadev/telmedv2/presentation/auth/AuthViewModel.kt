@@ -26,12 +26,18 @@ class AuthViewModel @Inject constructor(
     val currentUser: FirebaseUser?
         get() = authRepository.currentUser
 
+    init {
+        if (authRepository.currentUser != null)
+            _authStateLogin.value = AuthState(user = authRepository.currentUser)
+    }
+
 
     fun signUp(email: String, password: String) = viewModelScope.launch {
         authRepository.signUp(email, password).collectLatest { result ->
             when (result) {
                 is Resource.Error -> {
-                    _authStateSignUp.value = AuthState(isLoading = false, error = result.error ?: "")
+                    _authStateSignUp.value =
+                        AuthState(isLoading = false, error = result.error ?: "")
                 }
                 is Resource.Loading -> {
                     _authStateSignUp.value = AuthState(isLoading = true)
@@ -49,7 +55,10 @@ class AuthViewModel @Inject constructor(
         authRepository.login(email, password).collectLatest { result ->
             when (result) {
                 is Resource.Error -> {
-                    _authStateLogin.value = AuthState(isLoading = false, error = result.error ?: "")
+                    _authStateLogin.value = AuthState(
+                        isLoading = false,
+                        error = result.error ?: "An Error Occurred.Try Again"
+                    )
                 }
                 is Resource.Loading -> {
                     _authStateLogin.value = AuthState(isLoading = true)
@@ -65,7 +74,5 @@ class AuthViewModel @Inject constructor(
 
     fun logout() {
         authRepository.logout()
-//        _signUpFlow.value = null
-//        _loginFlow.value = null
     }
 }

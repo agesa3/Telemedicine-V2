@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -36,11 +37,19 @@ class LoginFragment : Fragment() {
     ): View? {
         _loginBinding =
             FragmentLoginBinding.inflate(inflater, container, false)
+
         loginBinding?.loginBtn?.setOnClickListener {
-            authViewModel.login(
-                loginBinding?.loginEmail?.text.toString(),
-                loginBinding?.loginPassword?.text.toString()
-            )
+            val email: String = loginBinding?.loginEmail?.text.toString()
+            val password: String = loginBinding?.loginPassword?.text.toString()
+            if (email.isNotEmpty() && password.isNotEmpty()) {
+                authViewModel.login(email, password)
+            } else {
+                Snackbar.make(
+                    requireView(),
+                    "Fill All the fields",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
         }
         return loginBinding?.root
     }

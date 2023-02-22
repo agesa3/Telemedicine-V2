@@ -1,5 +1,6 @@
 package com.agesadev.telmedv2.data.repository.auth
 
+import android.util.Log
 import com.agesadev.telmedv2.utils.Resource
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -21,6 +22,7 @@ class AuthRepositoryImpl @Inject constructor(
             task.addOnCompleteListener {
                 if (it.isSuccessful) {
                     trySend(Resource.Success(firebaseAuth.currentUser)).isSuccess
+                    Log.d("LoginRepository", "login: ${firebaseAuth.currentUser?.displayName}}")
                 } else {
                     trySend(Resource.Error(null, it.exception?.message)).isFailure
                 }
