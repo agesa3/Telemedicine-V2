@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.agesadev.telmedv2.R
 import com.agesadev.telmedv2.databinding.FragmentHomeBinding
 import com.agesadev.telmedv2.presentation.auth.AuthViewModel
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -59,10 +60,11 @@ class HomeFragment : Fragment() {
                             Log.d("Patients", "getAndObservePatients: ${state.patients}")
                         }
                         state.isLoading -> {
-                            Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT).show()
+                            homeBinding?.homeProgressBar?.visibility = View.VISIBLE
                         }
                         state.isError -> {
-                            Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                            Snackbar.make(requireView(), "An Error Occurred", Snackbar.LENGTH_SHORT)
+                                .show()
                         }
                     }
                 }
@@ -71,9 +73,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun setUpRecyclerView() {
-        homeBinding?.patientsRecyclerView?.adapter = patientsRecyclerAdapter
-        homeBinding?.patientsRecyclerView?.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        homeBinding?.patientsRecyclerView?.apply {
+            adapter = patientsRecyclerAdapter
+            layoutManager = LinearLayoutManager(context)
+        }
 
     }
 
