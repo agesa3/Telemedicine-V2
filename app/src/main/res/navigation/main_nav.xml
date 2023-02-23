@@ -24,4 +24,14 @@
         android:name="com.agesadev.telmedv2.presentation.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/registerPatientFragment"
+        android:name="com.agesadev.telmedv2.presentation.patient.RegisterPatientFragment"
+        android:label="fragment_register_patient"
+        tools:layout="@layout/fragment_register_patient" />
+    <fragment
+        android:id="@+id/patientFormsDashboardFragment"
+        android:name="com.agesadev.telmedv2.presentation.patient.PatientFormsDashboardFragment"
+        android:label="fragment_patient_forms_dashboard"
+        tools:layout="@layout/fragment_patient_forms_dashboard" />
 </navigation>
