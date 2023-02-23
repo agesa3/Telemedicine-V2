@@ -6,4 +6,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface PatientsRepository {
     fun getPatients(): Flow<Resource<List<PersonalInfo>>>
+
+    fun registerPatient(patient: PersonalInfo): Flow<Resource<String>>
+
+    fun updatePatient(patient: PersonalInfo, id: String): Flow<Resource<Boolean>>
 }
