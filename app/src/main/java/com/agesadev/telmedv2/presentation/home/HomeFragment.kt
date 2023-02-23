@@ -35,8 +35,15 @@ class HomeFragment : Fragment() {
                     authViewModel.logout()
                     findNavController().navigate(R.id.loginFragment)
                 }
+                R.id.add_patient -> {
+                    openPatientRegistration()
+                }
             }
             true
         }
+    }
+
+    private fun openPatientRegistration() {
+        findNavController().navigate(R.id.registerPatientFragment)
     }
 }
