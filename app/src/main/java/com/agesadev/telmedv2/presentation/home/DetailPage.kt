@@ -5,9 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.agesadev.telmedv2.R
+import androidx.navigation.fragment.navArgs
+import com.agesadev.telmedv2.data.models.PatientInfo
+import com.agesadev.telmedv2.databinding.FragmentDetailPageBinding
 
 class DetailPage : Fragment() {
+    private lateinit var binding: FragmentDetailPageBinding
+    private lateinit var patientInfo: PatientInfo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,8 +21,11 @@ class DetailPage : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detail_page, container, false)
+        binding = FragmentDetailPageBinding.inflate(inflater, container, false)
+
+
+
+        return binding.root
     }
 
 

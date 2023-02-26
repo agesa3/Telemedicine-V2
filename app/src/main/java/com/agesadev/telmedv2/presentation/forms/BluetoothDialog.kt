@@ -1,7 +1,6 @@
 package com.agesadev.telmedv2.presentation.forms
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.bluetooth.BluetoothAdapter
@@ -12,7 +11,6 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.DialogFragment
-import com.agesadev.telmedv2.R
 import com.agesadev.telmedv2.databinding.FragmentBluetoothDialogBinding
 
 class BluetoothDialog : DialogFragment() {
@@ -29,6 +27,9 @@ class BluetoothDialog : DialogFragment() {
 
         builder.setView(binding.root)
             .setTitle("Bluetooth pairing")
+
+        enableBluetooth()
+        checkPermission()
 
         return builder.create()
     }
@@ -56,10 +57,12 @@ class BluetoothDialog : DialogFragment() {
     private fun listDevices() {
         pairedDevices = bluetoothAdapter.bondedDevices
 
-        val deviceList = arrayListOf<String>()
-        for(bluetoothDevice in pairedDevices) deviceList.add(bluetoothDevice.name)
+        val adapter = BluetoothDeviceAdapter(pairedDevices)
 
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, deviceList)
         binding.pairedDevicesList.adapter = adapter
+
+
     }
+
+
 }

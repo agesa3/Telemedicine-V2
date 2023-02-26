@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".presentation.patient.PatientFormsDashboardFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -40,6 +41,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/barlow"
         android:text="+25470123456"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="@+id/textView3"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -63,7 +65,7 @@
         android:layout_height="150dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="4dp"
         android:background="@drawable/card_border"
         android:elevation="10dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
@@ -95,6 +97,7 @@
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
                 android:text="Personal Information Form"
+                android:textColor="@color/black"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -107,7 +110,7 @@
         android:id="@+id/cardView2"
         android:layout_width="0dp"
         android:layout_height="150dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:elevation="10dp"
@@ -139,6 +142,7 @@
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
                 android:text="Medical History Form"
+                android:textColor="@color/black"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -152,7 +156,7 @@
         android:layout_height="150dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="4dp"
         android:background="@drawable/card_border"
         android:elevation="10dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
@@ -183,6 +187,7 @@
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
                 android:text="Treatment History Form"
+                android:textColor="@color/black"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -194,7 +199,7 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="0dp"
         android:layout_height="150dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/card_border"
@@ -227,6 +232,7 @@
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
                 android:text="Medical History Form"
+                android:textColor="@color/black"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -240,21 +246,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        app:tint="@color/white"
         android:src="@drawable/ic_baseline_save_alt_24"
         app:layout_constraintBottom_toBottomOf="@+id/materialToolbar"
         app:layout_constraintEnd_toEndOf="@+id/materialToolbar"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
 
     <ImageView
         android:id="@+id/bluetooth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        app:tint="@color/white"
         android:src="@drawable/ic_baseline_bluetooth_24"
         app:layout_constraintBottom_toBottomOf="@+id/materialToolbar"
         app:layout_constraintEnd_toStartOf="@+id/form_save"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

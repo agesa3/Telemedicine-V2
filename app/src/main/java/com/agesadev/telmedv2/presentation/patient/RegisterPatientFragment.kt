@@ -5,24 +5,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.whenStarted
-import androidx.lifecycle.withStarted
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.*
 import androidx.navigation.fragment.findNavController
-import com.agesadev.telmedv2.R
-import com.agesadev.telmedv2.data.models.PersonalInfo
+import com.agesadev.telmedv2.data.models.PatientInfo
 import com.agesadev.telmedv2.databinding.FragmentRegisterPatientBinding
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RegisterPatientFragment : Fragment() {
 
     private var _binding: FragmentRegisterPatientBinding? = null
-    private val binding = _binding!!
+    private val binding get() = _binding!!
 
-    private val viewModel: PatientViewModel by activityViewModels()
+    private val viewModel: PatientViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,15 +29,14 @@ class RegisterPatientFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentRegisterPatientBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentRegisterPatientBinding.inflate(inflater, container, false)
+        val view = binding.root
 
 
         registrationListener()
-        binding.registerPatientButton.setOnClickListener {
-            registerClickListener()
-        }
+        registerClickListener()
 
-        return binding.root
+        return view
     }
 
     override fun onDestroy() {
@@ -53,37 +49,39 @@ class RegisterPatientFragment : Fragment() {
             val name = binding.patientName.text.toString()
             val number = binding.patientNumber.text.toString()
 
-            registerPatient(name, number)
+//            registerPatient(name, number)
+            navigateToFormsPage(name, number)
         }
 
     }
 
     private fun registerPatient(name: String, number: String) {
-        val patient = PersonalInfo(name, number)
+        val patient = PatientInfo(name, number)
         viewModel.registerPatient(patient)
     }
 
-    private fun navigateToFormsPage() {
-        findNavController().navigate(R.id.patientFormsDashboardFragment)
+    private fun navigateToFormsPage(name: String, phone_number: String) {
+        val action = RegisterPatientFragmentDirections
+            .actionRegisterPatientFragmentToPatientFormsDashboardFragment(name, phone_number)
+        findNavController().navigate(action)
     }
 
     private fun registrationListener() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.whenStarted {
-                viewModel.patientRegistered.collectLatest { state ->
-                    when {
-                        state.isLoading -> {
-                            showProgressBar(true)
-                        }
-                        state.error.isNotEmpty() -> {
-                            showProgressBar(false)
-                            showSnackBar(state.error)
-                        }
-                        state.user != null -> {
-                            showProgressBar(false)
-                            navigateToFormsPage()
-                        }
-                    }
+         viewModel.patientRegistered.observe(viewLifecycleOwner) { state ->
+            when {
+                state.isLoading -> {
+                    showProgressBar(true)
+                }
+                state.error.isNotEmpty() -> {
+                    showProgressBar(false)
+                    showSnackBar(state.error)
+                }
+                state.user != null -> {
+                    showProgressBar(false)
+                    navigateToFormsPage(
+                        binding.patientName.text.toString(),
+                        binding.patientNumber.text.toString()
+                    )
                 }
             }
         }

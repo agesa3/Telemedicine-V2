@@ -1,17 +1,19 @@
 package com.agesadev.telmedv2.presentation.patient
 
-import android.app.Person
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.agesadev.telmedv2.data.models.PersonalInfo
+import com.agesadev.telmedv2.data.models.PatientInfo
 import com.agesadev.telmedv2.data.repository.home.PatientsRepository
 import com.agesadev.telmedv2.utils.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class PatientViewModel @Inject constructor(
     private val patientsRepository: PatientsRepository
 ): ViewModel() {
@@ -19,9 +21,9 @@ class PatientViewModel @Inject constructor(
     private val _patientRegistered: MutableStateFlow<RegistrationState> = MutableStateFlow(
         RegistrationState()
     )
-    val patientRegistered: StateFlow<RegistrationState> = _patientRegistered
+    val patientRegistered: LiveData<RegistrationState> = _patientRegistered.asLiveData()
 
-    fun registerPatient(patient: PersonalInfo) = viewModelScope.launch {
+    fun registerPatient(patient: PatientInfo) = viewModelScope.launch {
         patientsRepository.registerPatient(patient).collectLatest { result ->
             when(result) {
                 is Resource.Error -> {
