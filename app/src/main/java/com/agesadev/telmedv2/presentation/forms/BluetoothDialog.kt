@@ -44,13 +44,12 @@ class BluetoothDialog : DialogFragment() {
 
     private lateinit var availableDevicesAdapter: BluetoothDeviceAdapter
 
+    private val TAG = this::class.simpleName
+
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireActivity())
         val inflater = layoutInflater
-
-        val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
-        requireContext().registerReceiver(receiver, filter)
 
 
         bluetoothManager = requireContext().getSystemService(BluetoothManager::class.java)
@@ -65,7 +64,8 @@ class BluetoothDialog : DialogFragment() {
         enableBluetooth()
 //        checkPermission()
         listDevices()
-        listAvailableDevices()
+//        listAvailableDevices()
+        discoverDevices()
 
         return builder.create()
     }
@@ -78,6 +78,60 @@ class BluetoothDialog : DialogFragment() {
     private fun visible() {
         val getvisible = Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE)
         startActivityForResult(getvisible, 0)
+    }
+    
+    private fun discoverDevices() {
+        Log.d(TAG, "discoverDevices: Looking for unpaired devices...")
+
+        if(bluetoothAdapter.isDiscovering()) {
+            bluetoothAdapter.cancelDiscovery()
+            Log.d(TAG, "discoverDevices: Canceling discovery")
+
+            checkBTPermissions()
+
+            bluetoothAdapter.startDiscovery()
+            val discoverDeviceIntent = IntentFilter(BluetoothDevice.ACTION_FOUND)
+            requireContext().registerReceiver(mBroadcastReceiver2, discoverDeviceIntent)
+        }
+
+        if (!bluetoothAdapter.isDiscovering()) {
+            checkBTPermissions()
+
+            bluetoothAdapter.startDiscovery()
+            val discoverDeviceIntent = IntentFilter(BluetoothDevice.ACTION_FOUND)
+            requireContext().registerReceiver(mBroadcastReceiver2, discoverDeviceIntent)
+        }
+    }
+
+    private val mBroadcastReceiver2: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(p0: Context?, p1: Intent?) {
+            val action = p1?.action
+            Log.d(TAG, "onReceive: Action FOUND")
+
+            if (action.equals(BluetoothDevice.ACTION_FOUND)) {
+                val device: BluetoothDevice? = p1?.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
+                if(device != null) {
+                    availableDevices.add(device)
+                    Log.d(TAG, "onReceive: ${device.name} : ${device.address}")
+                    availableDevicesAdapter = BluetoothDeviceAdapter(availableDevices, mBluetoothService)
+                    binding.availableDevicesList.adapter = availableDevicesAdapter
+                    binding.availableDevicesList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                }
+            }
+        }
+    }
+
+
+    private fun checkBTPermissions() {
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            var permissionCheck : Int = requireContext().checkSelfPermission("Manifest.permission.ACCESS_FINE_LOCATION")
+            permissionCheck += requireContext().checkSelfPermission("Manifest.permission.ACCESS_COARSE_LOCATION")
+            if (permissionCheck != 0) {
+                requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), 1001)
+            } else {
+                Log.d(TAG, "checkBTPermissions: No need to check permission. SDK version < LOLLIPOP")
+            }
+        }
     }
 
 //    private fun checkPermission() {
@@ -120,25 +174,9 @@ class BluetoothDialog : DialogFragment() {
         }
     }
 
-    private val receiver = object: BroadcastReceiver() {
-        override fun onReceive(p0: Context?, p1: Intent?) {
-            val action: String? = p1?.action
-            when(action) {
-                BluetoothDevice.ACTION_FOUND -> {
-                    val device: BluetoothDevice? = p1.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
-                    if(device != null) {
-                        availableDevices.add(device)
-                        availableDevicesAdapter.notifyDataSetChanged()
-                    }
-                }
-            }
-        }
-    }
-
     override fun onDestroy() {
         super.onDestroy()
-
-        requireContext().unregisterReceiver(receiver)
+        requireContext().unregisterReceiver(mBroadcastReceiver2)
     }
 
 
