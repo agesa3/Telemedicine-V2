@@ -24,4 +24,35 @@
         android:name="com.agesadev.telmedv2.presentation.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/registerPatientFragment"
+        android:name="com.agesadev.telmedv2.presentation.patient.RegisterPatientFragment"
+        android:label="fragment_register_patient"
+        tools:layout="@layout/fragment_register_patient" >
+        <action
+            android:id="@+id/action_registerPatientFragment_to_patientFormsDashboardFragment"
+            app:destination="@id/patientFormsDashboardFragment" />
+        <argument
+            android:name="patient_name"
+            app:argType="string"
+            android:defaultValue="John Doe" />
+        <argument
+            android:name="patient_number"
+            app:argType="string"
+            android:defaultValue="+254724484152" />
+    </fragment>
+    <fragment
+        android:id="@+id/patientFormsDashboardFragment"
+        android:name="com.agesadev.telmedv2.presentation.patient.PatientFormsDashboardFragment"
+        android:label="fragment_patient_forms_dashboard"
+        tools:layout="@layout/fragment_patient_forms_dashboard" >
+        <argument
+            android:name="patient_name"
+            app:argType="string"
+            android:defaultValue="Samora Machel" />
+        <argument
+            android:name="patient_phone_number"
+            app:argType="string"
+            android:defaultValue="+254724484152" />
+    </fragment>
 </navigation>

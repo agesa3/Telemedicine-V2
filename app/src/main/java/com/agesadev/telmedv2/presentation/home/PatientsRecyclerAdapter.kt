@@ -6,20 +6,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.agesadev.telmedv2.data.models.PersonalInfo
+import com.agesadev.telmedv2.data.models.PatientInfo
 import com.agesadev.telmedv2.databinding.PatientCardViewBinding
-import com.agesadev.telmedv2.databinding.SinglePatientCardBinding
 
 class PatientsRecyclerAdapter :
-    ListAdapter<PersonalInfo, PatientsRecyclerAdapter.PatientViewHolder>(patientsDiffUtil) {
+    ListAdapter<PatientInfo, PatientsRecyclerAdapter.PatientViewHolder>(patientsDiffUtil) {
 
     inner class PatientViewHolder(val binding: PatientCardViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(patient: PersonalInfo) {
+        fun bind(patient: PatientInfo) {
             binding.apply {
                 patientDisplayName.text = patient.fullName
-                patientDiagnosis.text = patient.idNo.toString()
+                patientDiagnosis.text = patient.comment
             }
         }
 
@@ -38,12 +37,12 @@ class PatientsRecyclerAdapter :
 
 }
 
-val patientsDiffUtil = object : DiffUtil.ItemCallback<PersonalInfo>() {
-    override fun areItemsTheSame(oldItem: PersonalInfo, newItem: PersonalInfo): Boolean {
+val patientsDiffUtil = object : DiffUtil.ItemCallback<PatientInfo>() {
+    override fun areItemsTheSame(oldItem: PatientInfo, newItem: PatientInfo): Boolean {
         return oldItem.idNo == newItem.idNo
     }
 
-    override fun areContentsTheSame(oldItem: PersonalInfo, newItem: PersonalInfo): Boolean {
+    override fun areContentsTheSame(oldItem: PatientInfo, newItem: PatientInfo): Boolean {
         return oldItem == newItem
     }
 

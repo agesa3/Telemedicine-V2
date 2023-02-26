@@ -18,6 +18,7 @@ class AuthRepositoryImpl @Inject constructor(
 
     override fun login(email: String, password: String): Flow<Resource<FirebaseUser>> =
         callbackFlow {
+            send(Resource.Loading())
             val task = firebaseAuth.signInWithEmailAndPassword(email, password)
             task.addOnCompleteListener {
                 if (it.isSuccessful) {
@@ -32,6 +33,7 @@ class AuthRepositoryImpl @Inject constructor(
 
     override fun signUp(email: String, password: String): Flow<Resource<FirebaseUser>> =
         callbackFlow {
+            send(Resource.Loading())
             val task = firebaseAuth.createUserWithEmailAndPassword(email, password)
             task.addOnCompleteListener {
                 if (it.isSuccessful) {
