@@ -1,8 +1,8 @@
 package com.agesadev.telmedv2.data.models
 
 data class PatientInfo(
-    val fullName: String,
-    val phoneNumber: String
+    val fullName: String? = null,
+    val phoneNumber: String? = null
 ) {
     // personal information
     val profileImage: String? = null

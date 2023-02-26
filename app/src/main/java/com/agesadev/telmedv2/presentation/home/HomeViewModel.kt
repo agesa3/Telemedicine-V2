@@ -34,6 +34,7 @@ class HomeViewModel @Inject constructor(
                     }
                     is Resource.Error -> {
                         _patients.value = PatientListState(
+                            isError = true,
                             errorMessage = result.error ?: "An Error Occurred"
                         )
                     }
