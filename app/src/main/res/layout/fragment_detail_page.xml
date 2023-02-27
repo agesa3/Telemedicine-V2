@@ -22,7 +22,7 @@
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@tools:sample/avatars" />
+            android:src="@drawable/profile"/>
 
         <TextView
             android:id="@+id/textView5"
@@ -38,7 +38,8 @@
             app:layout_constraintEnd_toStartOf="@+id/bluetooth_update_icon"
             app:layout_constraintStart_toEndOf="@+id/imageView4"
             app:layout_constraintTop_toTopOf="@+id/imageView4"
-            tools:text="John Doe" />
+            tools:text="John Doe"
+            android:text="@{patient.fullName}"/>
 
         <TextView
             android:id="@+id/textView6"
@@ -47,7 +48,8 @@
             app:layout_constraintEnd_toEndOf="@+id/textView5"
             app:layout_constraintStart_toStartOf="@+id/textView5"
             app:layout_constraintTop_toBottomOf="@+id/textView5"
-            tools:text="+254724484152" />
+            tools:text="+254724484152"
+            android:text="@{patient.phoneNumber}"/>
 
         <TextView
             android:id="@+id/textView7"
@@ -56,7 +58,8 @@
             app:layout_constraintEnd_toEndOf="@+id/textView6"
             app:layout_constraintStart_toStartOf="@+id/textView6"
             app:layout_constraintTop_toBottomOf="@+id/textView6"
-            tools:text="Male" />
+            tools:text="Male"
+            android:text="@{patient.gender}"/>
 
         <ScrollView
             android:layout_width="0dp"
@@ -211,7 +214,7 @@
                             android:fontFamily="@font/barlow_medium"
                             android:textColor="@color/black"
                             tools:text="3432454"
-                            android:text="@{patient.idNo}"/>
+                            android:text="@{patient.idNo.toString()}"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -504,7 +507,7 @@
                             android:fontFamily="@font/barlow_medium"
                             android:textColor="@color/black"
                             tools:text="180"
-                            android:text="@{patient.bloodPressure}"/>
+                            android:text="@{patient.bloodPressure.toString()}"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -532,7 +535,7 @@
                             android:fontFamily="@font/barlow_medium"
                             android:textColor="@color/black"
                             tools:text="72"
-                            android:text="@{patient.pulseRate}"/>
+                            android:text="@{patient.pulseRate.toString()}"/>
 
                     </LinearLayout>
 

@@ -38,7 +38,7 @@
         app:layout_constraintBottom_toTopOf="@+id/divider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/avatars" />
+        android:src="@drawable/profile"/>
 
     <TextView
         android:id="@+id/patientDiagnosis"

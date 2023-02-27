@@ -23,7 +23,11 @@
         android:id="@+id/homeFragment"
         android:name="com.agesadev.telmedv2.presentation.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_detailPage2"
+            app:destination="@id/detailPage2" />
+    </fragment>
     <fragment
         android:id="@+id/registerPatientFragment"
         android:name="com.agesadev.telmedv2.presentation.patient.RegisterPatientFragment"
@@ -64,5 +68,13 @@
         <action
             android:id="@+id/action_personalInfoFragment_to_patientFormsDashboardFragment"
             app:destination="@id/patientFormsDashboardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailPage2"
+        android:name="com.agesadev.telmedv2.presentation.home.DetailPage"
+        android:label="DetailPage" >
+        <argument
+            android:name="patient"
+            app:argType="com.agesadev.telmedv2.data.models.PatientInfo" />
     </fragment>
 </navigation>

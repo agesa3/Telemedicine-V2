@@ -4,12 +4,15 @@ import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.agesadev.telmedv2.R
+import com.agesadev.telmedv2.data.models.PatientInfo
 import com.agesadev.telmedv2.databinding.FragmentHomeBinding
 import com.agesadev.telmedv2.presentation.auth.AuthViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -25,6 +28,10 @@ class HomeFragment : Fragment() {
     private val authViewModel: AuthViewModel by viewModels()
     private val homeViewModel: HomeViewModel by viewModels()
 
+    private var patientListInfo : List<PatientInfo> = emptyList()
+
+    private val TAG = this::class.simpleName
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,6 +39,7 @@ class HomeFragment : Fragment() {
         _homeBinding = FragmentHomeBinding.inflate(inflater, container, false)
 
         patientListListener()
+
 
         return homeBinding.root
     }
@@ -63,6 +71,7 @@ class HomeFragment : Fragment() {
                         showProgressBar(false)
                         val recyclerAdapter = PatientsRecyclerAdapter()
                         recyclerAdapter.submitList(state.patients)
+                        patientListInfo = state.patients
                         homeBinding.patientRecyclerView.adapter = recyclerAdapter
                         homeBinding.patientRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
                     }
@@ -90,4 +99,12 @@ class HomeFragment : Fragment() {
             homeBinding.patientProgressBar.visibility = View.GONE
         }
     }
+
+//    override fun onClick(p0: View?) {
+//        Log.d(TAG, "onClick: Patient view clicked")
+//        val itemPosition =
+//        val patient = patientListInfo[itemPosition]
+//        val action = HomeFragmentDirections.actionHomeFragmentToDetailPage2(patient)
+//        findNavController().navigate(action)
+//    }
 }
