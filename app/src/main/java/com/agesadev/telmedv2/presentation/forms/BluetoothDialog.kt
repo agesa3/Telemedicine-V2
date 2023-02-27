@@ -18,6 +18,8 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -31,7 +33,7 @@ import com.agesadev.telmedv2.databinding.FragmentBluetoothDialogBinding
 import java.io.IOException
 import kotlin.reflect.full.memberFunctions
 
-class BluetoothDialog : DialogFragment() {
+class BluetoothDialog : DialogFragment(), AdapterView.OnItemClickListener {
     private lateinit var bluetoothManager: BluetoothManager
     private lateinit var bluetoothAdapter: BluetoothAdapter
 
@@ -58,13 +60,14 @@ class BluetoothDialog : DialogFragment() {
         binding = FragmentBluetoothDialogBinding.inflate(inflater)
         mBluetoothService = BluetoothService(mHandler)
 
+        val filter: IntentFilter = IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED)
+        requireContext().registerReceiver(mBroadcastReceiver3, filter)
+
         builder.setView(binding.root)
             .setTitle("Bluetooth pairing")
 
         enableBluetooth()
-//        checkPermission()
         listDevices()
-//        listAvailableDevices()
         discoverDevices()
 
         return builder.create()
@@ -113,9 +116,41 @@ class BluetoothDialog : DialogFragment() {
                 if(device != null) {
                     availableDevices.add(device)
                     Log.d(TAG, "onReceive: ${device.name} : ${device.address}")
-                    availableDevicesAdapter = BluetoothDeviceAdapter(availableDevices, mBluetoothService)
-                    binding.availableDevicesList.adapter = availableDevicesAdapter
-                    binding.availableDevicesList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                    availableDevicesAdapter = BluetoothDeviceAdapter(availableDevices)
+
+                    val availableDeviceNames: MutableList<String> = mutableListOf()
+                    availableDevices.forEach { availableDevices.forEach { availableDeviceNames.add(it.name?:"") } }
+
+                    binding.availableDevicesList.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, availableDeviceNames)
+                    binding.availableDevicesList.setOnItemClickListener(this@BluetoothDialog)
+//                    binding.availableDevicesList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                }
+            }
+        }
+    }
+
+    private val mBroadcastReceiver3: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(p0: Context?, p1: Intent?) {
+            val action: String? = p1?.action
+
+            if (action.equals(BluetoothDevice.ACTION_BOND_STATE_CHANGED)) {
+                val mDevice: BluetoothDevice? = p1?.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
+
+                if(mDevice != null) {
+                    // bonded already
+                    if(mDevice.bondState == BluetoothDevice.BOND_BONDED) {
+                        Log.d(TAG, "BroadcastReceiver: BOND_BONDED")
+                    }
+
+                    // creating a bond
+                    if(mDevice.bondState == BluetoothDevice.BOND_BONDING) {
+                        Log.d(TAG, "BroadcastReceiver: BOND_BONDING")
+                    }
+
+                    // breaking a bond
+                    if(mDevice.bondState == BluetoothDevice.BOND_NONE) {
+                        Log.d(TAG, "BroadcastReceiver: BOND_BONDED")
+                    }
                 }
             }
         }
@@ -134,36 +169,21 @@ class BluetoothDialog : DialogFragment() {
         }
     }
 
-//    private fun checkPermission() {
-//        if (ActivityCompat.checkSelfPermission(
-//                requireContext(),
-//                Manifest.permission.BLUETOOTH_CONNECT
-//            ) != PackageManager.PERMISSION_GRANTED
-//        ) {
-//            listDevices()
-//        } else {
-//            Toast.makeText(requireContext(), "Bluetooth permission not granted", Toast.LENGTH_LONG).show()
-//            dismiss()
-//        }
-//    }
 
     @SuppressLint("MissingPermission")
     private fun listDevices() {
         pairedDevices = bluetoothAdapter.bondedDevices
 
-        val adapter = BluetoothDeviceAdapter(pairedDevices, mBluetoothService)
+        val deviceNameList: MutableList<String> = mutableListOf()
+        pairedDevices.forEach { deviceNameList.add(it.name) }
 
-        binding.pairedDevicesList.adapter = adapter
-        binding.pairedDevicesList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        val adapter = BluetoothDeviceAdapter(pairedDevices)
 
-    }
-
-    private fun listAvailableDevices() {
-        availableDevicesAdapter = BluetoothDeviceAdapter(availableDevices, mBluetoothService)
-        binding.availableDevicesList.adapter = availableDevicesAdapter
-        binding.availableDevicesList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.pairedDevicesList.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, deviceNameList)
+//        binding.pairedDevicesList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
     }
+
 
     private val mHandler: Handler = @SuppressLint("HandlerLeak")
     object : Handler() {
@@ -177,7 +197,23 @@ class BluetoothDialog : DialogFragment() {
     override fun onDestroy() {
         super.onDestroy()
         requireContext().unregisterReceiver(mBroadcastReceiver2)
+        requireContext().unregisterReceiver(mBroadcastReceiver3)
     }
 
+    override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+        bluetoothAdapter.cancelDiscovery()
+
+        Log.d(TAG, "onItemClick: You clicked a device")
+        val deviceName: String = availableDevices.elementAt(p2).name
+        val deviceAddress: String = availableDevices.elementAt(p2).address
+
+        Log.d(TAG, "onItemClick: deviceName = ${deviceName}")
+        Log.d(TAG, "onItemClick: deviceAddress = ${deviceAddress}")
+
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            Log.d(TAG, "Trying to pair with ${deviceName}")
+            availableDevices.elementAt(p2).createBond()
+        }
+    }
 
 }

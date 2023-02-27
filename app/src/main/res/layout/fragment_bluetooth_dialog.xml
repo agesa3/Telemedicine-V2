@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <ListView
         android:id="@+id/availableDevicesList"
         android:layout_width="0dp"
         android:layout_height="200dp"
@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10">
 
-    </androidx.recyclerview.widget.RecyclerView>
+    </ListView>
 
     <TextView
         android:id="@+id/textView13"
@@ -45,7 +45,7 @@
         app:layout_constraintStart_toEndOf="@+id/textView10"
         app:layout_constraintTop_toTopOf="@+id/textView10" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <ListView
         android:id="@+id/pairedDevicesList"
         android:layout_width="0dp"
         android:layout_height="200dp"

@@ -18,8 +18,7 @@ import kotlin.reflect.jvm.javaMethod
 
 
 class BluetoothDeviceAdapter(
-    val devicesList: Set<BluetoothDevice>,
-    private val mBluetoothService: BluetoothService
+    val devicesList: Set<BluetoothDevice>
 ): RecyclerView.Adapter<BluetoothDeviceAdapter.ViewHolder>() {
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val listItem = itemView.findViewById<TextView>(android.R.id.text1)
@@ -29,26 +28,17 @@ class BluetoothDeviceAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BluetoothDeviceAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context).inflate(android.R.layout.simple_list_item_1, parent, false)
-        return BluetoothDeviceAdapter.ViewHolder(inflater)
+        return ViewHolder(inflater)
     }
 
-    override fun onBindViewHolder(holder: BluetoothDeviceAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.setup(devicesList.elementAt(position).name)
-        holder.listItem.setOnClickListener {
-            mBluetoothService.ConnectToBluetoothThread(devicesList.elementAt(position))
-        }
     }
 
     override fun getItemCount(): Int {
         return devicesList.size
     }
-
-    private fun pairDevice(device: BluetoothDevice, context: Context) {
-        device::class.java.getMethod("setPairingConfirmation", Boolean::class.java).invoke(device, true)
-        device::class.java.getMethod("cancelPairingUserInput", Boolean::class.java).invoke(device)
-    }
-
 
 }

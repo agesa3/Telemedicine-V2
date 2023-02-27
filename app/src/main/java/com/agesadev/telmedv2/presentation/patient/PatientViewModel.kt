@@ -18,13 +18,15 @@ class PatientViewModel @Inject constructor(
     private val patientsRepository: PatientsRepository
 ): ViewModel() {
 
+    var patientDetails: PatientInfo = PatientInfo()
+
     private val _patientRegistered: MutableStateFlow<RegistrationState> = MutableStateFlow(
         RegistrationState()
     )
     val patientRegistered: LiveData<RegistrationState> = _patientRegistered.asLiveData()
 
-    fun registerPatient(patient: PatientInfo) = viewModelScope.launch {
-        patientsRepository.registerPatient(patient).collectLatest { result ->
+    fun registerPatient() = viewModelScope.launch {
+        patientsRepository.registerPatient(patientDetails).collectLatest { result ->
             when(result) {
                 is Resource.Error -> {
                     _patientRegistered.value = RegistrationState(false, result.error?:"")

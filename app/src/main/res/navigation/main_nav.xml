@@ -46,13 +46,23 @@
         android:name="com.agesadev.telmedv2.presentation.patient.PatientFormsDashboardFragment"
         android:label="fragment_patient_forms_dashboard"
         tools:layout="@layout/fragment_patient_forms_dashboard" >
+        <action
+            android:id="@+id/action_patientFormsDashboardFragment_to_personalInfoFragment"
+            app:destination="@id/personalInfoFragment" />
         <argument
-            android:name="patient_name"
-            app:argType="string"
-            android:defaultValue="Samora Machel" />
+            android:name="patient"
+            app:argType="com.agesadev.telmedv2.data.models.PatientInfo" />
+    </fragment>
+    <fragment
+        android:id="@+id/personalInfoFragment"
+        android:name="com.agesadev.telmedv2.presentation.forms.PersonalInfoFragment"
+        android:label="fragment_personal_info"
+        tools:layout="@layout/fragment_personal_info" >
         <argument
-            android:name="patient_phone_number"
-            app:argType="string"
-            android:defaultValue="+254724484152" />
+            android:name="patient"
+            app:argType="com.agesadev.telmedv2.data.models.PatientInfo" />
+        <action
+            android:id="@+id/action_personalInfoFragment_to_patientFormsDashboardFragment"
+            app:destination="@id/patientFormsDashboardFragment" />
     </fragment>
 </navigation>

@@ -49,20 +49,20 @@ class RegisterPatientFragment : Fragment() {
             val name = binding.patientName.text.toString()
             val number = binding.patientNumber.text.toString()
 
-//            registerPatient(name, number)
+            registerPatient(name, number)
             navigateToFormsPage(name, number)
         }
 
     }
 
     private fun registerPatient(name: String, number: String) {
-        val patient = PatientInfo(name, number)
-        viewModel.registerPatient(patient)
+        viewModel.patientDetails.fullName = name
+        viewModel.patientDetails.phoneNumber = number
     }
 
     private fun navigateToFormsPage(name: String, phone_number: String) {
         val action = RegisterPatientFragmentDirections
-            .actionRegisterPatientFragmentToPatientFormsDashboardFragment(name, phone_number)
+            .actionRegisterPatientFragmentToPatientFormsDashboardFragment(viewModel.patientDetails)
         findNavController().navigate(action)
     }
 
