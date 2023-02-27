@@ -7,7 +7,6 @@ import android.app.Dialog
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
-import android.bluetooth.BluetoothSocket
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -17,24 +16,17 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import android.util.Log
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
-import androidx.core.content.getSystemService
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.agesadev.telmedv2.data.AppConstants
 import com.agesadev.telmedv2.data.services.BluetoothService
 import com.agesadev.telmedv2.databinding.FragmentBluetoothDialogBinding
-import java.io.IOException
-import kotlin.reflect.full.memberFunctions
 
 class BluetoothDialog : DialogFragment() {
+
     private lateinit var bluetoothManager: BluetoothManager
     private lateinit var bluetoothAdapter: BluetoothAdapter
-
     private lateinit var pairedDevices: Set<BluetoothDevice>
     private var availableDevices: MutableSet<BluetoothDevice> = mutableSetOf()
 
@@ -44,6 +36,7 @@ class BluetoothDialog : DialogFragment() {
 
     private lateinit var availableDevicesAdapter: BluetoothDeviceAdapter
 
+//    @RequiresApi(Build.VERSION_CODES.M)
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireActivity())
@@ -51,10 +44,24 @@ class BluetoothDialog : DialogFragment() {
 
         val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
         requireContext().registerReceiver(receiver, filter)
-
-
-        bluetoothManager = requireContext().getSystemService(BluetoothManager::class.java)
+        bluetoothManager =
+            requireContext().getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
         bluetoothAdapter = bluetoothManager.adapter
+
+        if (bluetoothAdapter == null) {
+            Toast.makeText(requireContext(), "Bluetooth not supported", Toast.LENGTH_LONG).show()
+        } else {
+            if (!bluetoothAdapter.isEnabled) {
+                val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+                startActivityForResult(enableBtIntent, 1)
+            } else {
+                // Solution code to add
+                val permissionCheck = requireActivity().checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT)
+                if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(arrayOf(Manifest.permission.BLUETOOTH_CONNECT), 1)
+                }
+            }
+        }
 
         binding = FragmentBluetoothDialogBinding.inflate(inflater)
         mBluetoothService = BluetoothService(mHandler)
@@ -63,7 +70,6 @@ class BluetoothDialog : DialogFragment() {
             .setTitle("Bluetooth pairing")
 
         enableBluetooth()
-//        checkPermission()
         listDevices()
         listAvailableDevices()
 
@@ -100,14 +106,16 @@ class BluetoothDialog : DialogFragment() {
         val adapter = BluetoothDeviceAdapter(pairedDevices, mBluetoothService)
 
         binding.pairedDevicesList.adapter = adapter
-        binding.pairedDevicesList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.pairedDevicesList.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
     }
 
     private fun listAvailableDevices() {
         availableDevicesAdapter = BluetoothDeviceAdapter(availableDevices, mBluetoothService)
         binding.availableDevicesList.adapter = availableDevicesAdapter
-        binding.availableDevicesList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.availableDevicesList.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
     }
 
@@ -120,13 +128,14 @@ class BluetoothDialog : DialogFragment() {
         }
     }
 
-    private val receiver = object: BroadcastReceiver() {
+    private val receiver = object : BroadcastReceiver() {
         override fun onReceive(p0: Context?, p1: Intent?) {
             val action: String? = p1?.action
-            when(action) {
+            when (action) {
                 BluetoothDevice.ACTION_FOUND -> {
-                    val device: BluetoothDevice? = p1.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
-                    if(device != null) {
+                    val device: BluetoothDevice? =
+                        p1.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
+                    if (device != null) {
                         availableDevices.add(device)
                         availableDevicesAdapter.notifyDataSetChanged()
                     }
